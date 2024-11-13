@@ -2,28 +2,42 @@ package token
 
 type TokenType string
 
-const (
-	// structural characters
-	OBRACKET       string = "{"
-	CBRACKET       string = "}"
-	OPAREN         string = "("
-	CPAREN         string = ")"
-	OSQRBRACKET    string = "["
-	CSQRBRACKET    string = "]"
-	COLON          string = ":"
-	DOUBLEQOUTE    string = "\""
-	BACKSLASH      string = "\\"
-	DOUBLBACKSLASH string = "\\\\"
-
-	IDENT string = "IDENT"
-	INT   string = "INT"
-
-	FALSE string = "false"
-	NULL  string = "null"
-	TRUE  string = "true"
-)
-
 type Token struct {
 	Type    TokenType
 	Literal string
 }
+
+const (
+	// structural characters
+	OBRACKET         = "{"
+	CBRACKET         = "}"
+	OPAREN           = "("
+	CPAREN           = ")"
+	OSQRBRACKET      = "["
+	CSQRBRACKET      = "]"
+	COLON            = ":"
+	COMMA            = ","
+	DOUBLE_BACKSLASH = "\\\\"
+
+	IDENT = "IDENT"
+	INT   = "INT"
+
+	//values
+	FALSE  = "false"
+	NULL   = "null"
+	TRUE   = "true"
+	OBJECT = "object"
+	ARRAY  = "array"
+	NUMBER = "number"
+	STRING = "string"
+
+	EOF     = "EOF"
+	ILLEGAL = "ILLEGAL"
+
+	// Numbers
+	BACKSLASH    byte = '\\'
+	MINUS        byte = '-'
+	DECIMALPOINT byte = '.'
+	SPACE        byte = ' '
+	QUOTE        byte = '"'
+)
