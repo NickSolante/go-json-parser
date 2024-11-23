@@ -17,7 +17,7 @@ func TestLexer(t *testing.T) {
 			{token.CBRACKET, "}"},
 		}
 
-		l := New(input)
+		l := NewLexer(input)
 
 		for i, tt := range tests {
 			tok := l.NextToken()
@@ -32,18 +32,17 @@ func TestLexer(t *testing.T) {
 		}
 	})
 
-	t.Run("invalid json", func(t *testing.T) {
-		input := ""
+	t.Run("string hello", func(t *testing.T) {
+		input := `"train"`
 
 		tests := []struct {
 			expectedType    token.TokenType
 			expectedLiteral string
 		}{
-			{token.OBRACKET, "{"},
-			{token.CBRACKET, "}"},
+			{token.STRING, "train"},
 		}
 
-		l := New(input)
+		l := NewLexer(input)
 
 		for i, tt := range tests {
 			tok := l.NextToken()
@@ -56,6 +55,5 @@ func TestLexer(t *testing.T) {
 				t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
 			}
 		}
-
 	})
 }
