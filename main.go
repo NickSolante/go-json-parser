@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-json-parser/lib/lexer"
 	"go-json-parser/lib/parser"
+	v "go-json-parser/lib/valid"
 	"os"
 	"strings"
 )
@@ -14,10 +15,8 @@ func main() {
 	var err error
 
 	if len(os.Args) > 1 {
-		// Join all arguments after the program name
 		input = strings.Join(os.Args[1:], " ")
 	} else {
-		// Fallback to stdin if no arguments provided
 		fmt.Println("JSON Parser")
 		fmt.Println("Enter JSON input:")
 
@@ -29,18 +28,18 @@ func main() {
 		}
 	}
 
-	// Clean input
 	input = strings.TrimSpace(input)
 
-	// Initialize the lexer and parser
 	l := lexer.NewLexer(input)
 	p := parser.NewParser(l)
 
 	result, err := p.Parse()
 	if err != nil {
 		fmt.Println("Error parsing JSON:", err)
+		fmt.Printf("is JSON Valid? %t\n", v.IsValid(result, err))
 		return
 	}
 
 	fmt.Printf("Parsed JSON: %+v\n", result)
+	fmt.Printf("is JSON Valid? %t\n", v.IsValid(result, err))
 }
