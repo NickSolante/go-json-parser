@@ -126,16 +126,6 @@ func TestParser(t *testing.T) {
 			expectError: false,
 		},
 		{
-			name:  "Array with Nested Arrays",
-			input: `[ ["a"], ["b"], ["c"] ]`,
-			expectedValue: []interface{}{
-				[]interface{}{"a"},
-				[]interface{}{"b"},
-				[]interface{}{"c"},
-			},
-			expectError: false,
-		},
-		{
 			name:  "Complex Object",
 			input: `{"key": {"key2": "value", "key3": { "key4": [-84.25] } }, "key5": [{"key6": false, "key7": null }] }`,
 			expectedValue: map[string]interface{}{
@@ -166,4 +156,72 @@ func TestParser(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("Deep nested Array", func(t *testing.T) {
+		test := []struct {
+			name          string
+			input         string
+			expectedValue interface{}
+			expectError   bool
+		}{
+			{
+				name:  "Array with Nested Arrays",
+				input: `[[[[[[[[[[[[[[[[[[["Not too deep"]]]]]]]]]]]]]]]]]]]`,
+				expectedValue: []interface{}{
+					[]interface{}{
+						[]interface{}{
+							[]interface{}{
+								[]interface{}{
+									[]interface{}{
+										[]interface{}{
+											[]interface{}{
+												[]interface{}{
+													[]interface{}{
+														[]interface{}{
+															[]interface{}{
+																[]interface{}{
+																	[]interface{}{
+																		[]interface{}{
+																			[]interface{}{
+																				[]interface{}{
+																					[]interface{}{
+																						[]interface{}{
+																							"Not too deep",
+																						},
+																					},
+																				},
+																			},
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				expectError: false,
+			},
+		}
+
+		for _, tt := range test {
+			t.Run(tt.name, func(t *testing.T) {
+				l := lexer.NewLexer(tt.input)
+				p := NewParser(l)
+				actualValue, actualError := p.Parse()
+				if actualError != nil && !tt.expectError {
+					t.Fatalf("Expected no error but received: %v", actualError)
+				}
+				if !reflect.DeepEqual(actualValue, tt.expectedValue) {
+					t.Fatalf("Expected %T but received %T", tt.expectedValue, actualValue)
+				}
+			})
+		}
+	})
 }
