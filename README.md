@@ -22,18 +22,17 @@ for interactive mode.
 
 // then type your JSON and press enter
 
-like:
 
 {"key": "value"}
 ```
 
-## Todo
-
-- [X] Should output the value is valid JSON or not.
-- [ ] 
-- [ ]
-- [ ]
-- [ ]
-
 ## References
 
+- [RFC7159](https://datatracker.ietf.org/doc/html/rfc7159)
+- [JSON.org](https://www.json.org/json-en.html)
+- [JSONApi](https://jsonapi.org/format/)
+
+## Todo
+
+- [ ] RFC7159 compliance
+- [ ] Extend cli parser to web server
